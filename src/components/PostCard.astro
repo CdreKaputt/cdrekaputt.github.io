@@ -1,0 +1,25 @@
+---
+interface Props {
+  category: string;
+  date: Date;
+  heading: string;
+  excerpt: string;
+  href: string | URL;
+}
+
+const { category, date, heading, excerpt, href } = Astro.props;
+---
+
+<article class="p-5 outline-1 flex flex-col gap-4">
+  <div class="text-xs flex items-center gap-4">
+    <span
+      class="px-[1em] py-[0.25em] font-semibold rounded-full bg-neutral-300 text-neutral-900"
+      >{category}</span
+    ><span>{date}</span>
+  </div>
+  <div>
+    <h3 class="mb-1 text-xl">{heading}</h3>
+    <p>{excerpt}</p>
+  </div>
+  <a class="underline underline-offset-3" href={href}>Read More</a>
+</article>

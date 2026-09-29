@@ -1,0 +1,59 @@
+---
+import Hero from "../components/Hero.astro";
+import PostCard from "../components/PostCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const posts = [
+  {
+    category: "Week 1",
+    date: new Date(2026, 8, 10),
+    heading: "Week 1 - Getting Started",
+    excerpt:
+      "This week I reviewed the course requirements, took a look at the previous student examples that were provided...",
+    href: "/",
+  },
+  {
+    category: "Week 1",
+    date: new Date(2026, 8, 10),
+    heading: "Week 1 - Getting Started",
+    excerpt:
+      "This week I reviewed the course requirements, took a look at the previous student examples that were provided...",
+    href: "/",
+  },
+  {
+    category: "Week 1",
+    date: new Date(2026, 8, 10),
+    heading: "Week 1 - Getting Started",
+    excerpt:
+      "This week I reviewed the course requirements, took a look at the previous student examples that were provided...",
+    href: "/",
+  },
+];
+---
+
+<BaseLayout title="Home">
+  <Hero slot="hero" title="Hello">
+    <p>A short intro line under the heading.</p>
+  </Hero>
+  <p class="font-light">Montserrat, light weight.</p>
+  <section class="flex flex-col gap-12">
+    <div>
+      <h2 class="text-3xl">Recent Updates</h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam dolorem
+        autem quidem nemo rerum maxime? Soluta, dolor. Natus eveniet, molestias
+        commodi, iste, obcaecati dolorum repellat temporibus ab sint illo
+        tempora?
+      </p>
+    </div>
+    <ul class="flex flex-col gap-5">
+      {
+        posts.map((post) => (
+          <li>
+            <PostCard {...post} />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
