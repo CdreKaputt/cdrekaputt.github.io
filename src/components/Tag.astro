@@ -1,0 +1,18 @@
+---
+export interface TagType {
+  label: string;
+  url: string | URL;
+}
+
+interface Props extends TagType {}
+
+const { label, url } = Astro.props;
+---
+
+<a href={url}>
+  <span
+    class="font-semibold text-neutral-900 px-[1em] py-[0.25em] rounded bg-neutral-300"
+  >
+    {label}
+  </span>
+</a>

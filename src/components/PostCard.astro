@@ -1,25 +1,43 @@
 ---
+import Tag, { type TagType } from "./Tag.astro";
+
 interface Props {
-  category: string;
+  tag: TagType;
+  author: string;
   date: Date;
   heading: string;
   excerpt: string;
   href: string | URL;
 }
 
-const { category, date, heading, excerpt, href } = Astro.props;
+const { tag, author, date, heading, excerpt, href } = Astro.props;
+const dateString = date.toLocaleDateString("us-EN", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
 ---
 
-<article class="p-5 outline-1 flex flex-col gap-4">
-  <div class="text-xs flex items-center gap-4">
-    <span
-      class="px-[1em] py-[0.25em] font-semibold rounded-full bg-neutral-300 text-neutral-900"
-      >{category}</span
-    ><span>{date}</span>
+<article
+  class="relative p-6 outline-1 outline-neutral-200 rounded-lg shadow-lg bg-white flex flex-col gap-5 hover:outline-neutral-300 hover:bg-neutral-100 transition-colors duration-300"
+>
+  <div class="text-sm flex items-center gap-4">
+    <div class="flex gap-2"><Tag {...tag} /></div>
   </div>
-  <div>
-    <h3 class="mb-1 text-xl">{heading}</h3>
+  <div class="mb-3">
+    <a
+      href={href}
+      class="after:absolute after:h-full after:w-full after:top-0 after:left-0"
+      ><h3 class="mb-1 text-xl font-semibold">{heading}</h3></a
+    >
     <p>{excerpt}</p>
   </div>
-  <a class="underline underline-offset-3" href={href}>Read More</a>
+  <div class="flex items-center gap-x-4">
+    <div class="h-10 w-10 rounded-full bg-neutral-600"></div>
+    <div class="flex flex-col gap-y-0.5 text-sm">
+      <span class="font-semibold">{author}</span>
+      <span>{dateString}</span>
+    </div>
+  </div>
+  <!-- <a class="underline underline-offset-3" href={href}>Read More</a> -->
 </article>

@@ -34,12 +34,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
 
     <Font cssVariable="--font-montserrat" preload />
   </head>
-  <body class="min-h-screen font-sans antialiased">
+  <body class="min-h-screen font-sans antialiased bg-white">
     <Header />
 
     <main>
       <slot name="hero" />
-      <div class="mx-auto max-w-3xl px-4 py-8">
+      <div class="mx-auto max-w-7xl px-4 py-8">
         <slot />
       </div>
     </main>
