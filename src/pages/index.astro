@@ -3,50 +3,11 @@ import Hero from "../components/Hero.astro";
 import PostCard from "../components/PostCard.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-import type Author from "../types/author";
 import type Post from "../types/post";
-import type Tag from "../types/tag";
-import portrait from "../assets/aaron-headshot-v-2.jpg";
 
-const aaron: Author = { name: "Aaron Brunswig", avatar: portrait };
-const week1: Tag = { label: "Week 1", url: "/blog/week-1" };
-const setup: Tag = { label: "Setup", url: "/tags/setup" };
-const build: Tag = { label: "Build", url: "/blog/build" };
-const deploy: Tag = { label: "Deploy", url: "/blog/deploy" };
-const test: Tag = { label: "Test", url: "/blog/test" };
+import { getRecentPosts } from "../lib/posts.ts";
 
-const posts: Post[] = [
-  {
-    title: "Week 1 - Getting Started",
-    excerpt:
-      "This week I reviewed the course requirements, took a look at the previous student examples that were provided...",
-    date: new Date(2026, 8, 10),
-    href: "/blog/week-1/getting-started",
-    author: aaron,
-    category: week1,
-    tags: [build, deploy, test],
-  },
-  {
-    title: "Week 1 - Getting Started",
-    excerpt:
-      "This week I reviewed the course requirements, took a look at the previous student examples that were provided...",
-    date: new Date(2026, 8, 10),
-    href: "/blog/week-1/getting-started",
-    author: aaron,
-    category: week1,
-    tags: [setup],
-  },
-  {
-    title: "Week 1 - Getting Started",
-    excerpt:
-      "This week I reviewed the course requirements, took a look at the previous student examples that were provided...",
-    date: new Date(2026, 8, 10),
-    href: "/blog/week-1/getting-started",
-    author: aaron,
-    category: week1,
-    tags: [setup],
-  },
-];
+const posts: Post[] = await getRecentPosts(6);
 ---
 
 <BaseLayout title="Home">
