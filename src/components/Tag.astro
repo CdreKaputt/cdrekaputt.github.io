@@ -1,17 +1,21 @@
 ---
-export interface TagType {
-  label: string;
-  url: string | URL;
+import type Tag from "../types/tag";
+
+interface Props extends Tag {
+  variant?: "category" | "tag";
 }
 
-interface Props extends TagType {}
-
-const { label, url } = Astro.props;
+const { label, url, variant = "tag" } = Astro.props;
 ---
 
-<a href={url}>
+<a class="z-10" href={url}>
   <span
-    class="font-semibold text-neutral-900 px-[1em] py-[0.25em] rounded bg-neutral-300"
+    class:list={[
+      "font-semibold text-xs px-[1em] py-[0.25em] rounded transition-transform duration-300",
+      variant === "category"
+        ? "text-white bg-neutral-800 border border-neutral-800 hover:bg-neutral-700"
+        : "text-neutral-700 border border-neutral-300 hover:border-neutral-400",
+    ]}
   >
     {label}
   </span>
