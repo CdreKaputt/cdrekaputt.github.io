@@ -3,17 +3,18 @@
 
 @theme inline {
   --font-sans: var(--font-montserrat);
+  --font-body: var(--font-inter);
 }
 
 @theme {
-  --color-page: var(--color-neutral-50);
+  --color-page: var(--color-neutral-100);
   --color-surface: var(--color-white);
-  --color-ink: var(--color-neutral-900);
+  --color-ink: var(--color-neutral-800);
   --color-muted: var(--color-neutral-600);
   --color-line: var(--color-neutral-200);
-  --color-accent: var(--color-neutral-900);
-  --color-inverse: var(--color-neutral-900);
-  --color-on-inverse: var(--color-neutral-50);
+  --color-accent: var(--color-neutral-800);
+  --color-inverse: var(--color-neutral-800);
+  --color-on-inverse: var(--color-neutral-100);
   --color-on-inverse-muted: var(--color-neutral-300);
 }
 

@@ -16,6 +16,14 @@ export default defineConfig({
       styles: ['normal', 'italic'],
       fallbacks: ['sans-serif'],
     },
+    {
+      provider: fontProviders.google(),
+      name: 'Inter',
+      cssVariable: '--font-inter',
+      weights: ['100 900'],
+      styles: ['normal', 'italic'],
+      fallbacks: ['sans-serif'],
+    },
   ],
 
   vite: {

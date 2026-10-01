@@ -40,7 +40,7 @@ const minutes = readingTime(entry.body);
 ---
 
 <BaseLayout title={post.title} description={post.excerpt}>
-  <section slot="hero" class="bg-inverse px-4 text-on-inverse">
+  <section slot="hero" class="bg-inverse px-4 text-on-inverse antialiased">
     <div class="mx-auto max-w-5xl py-12 lg:py-16">
       <a
         href="/blog"
@@ -100,7 +100,7 @@ const minutes = readingTime(entry.body);
     }
 
     <article class="min-w-0">
-      <div class="prose prose-theme prose-headings:scroll-mt-24 lg:prose-lg">
+      <div class="prose prose-theme font-body prose-headings:font-sans prose-headings:scroll-mt-24 lg:prose-lg">
         <Content />
       </div>
 

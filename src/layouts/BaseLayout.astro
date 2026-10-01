@@ -33,8 +33,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
     <link rel="icon" href="/favicon.ico" />
 
     <Font cssVariable="--font-montserrat" preload />
+    <Font cssVariable="--font-inter" preload />
   </head>
-  <body class="min-h-screen font-sans antialiased bg-neutral-50">
+  <body class="min-h-screen font-sans bg-page text-ink">
     <Header />
 
     <main>
