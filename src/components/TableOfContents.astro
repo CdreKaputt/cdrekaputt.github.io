@@ -1,0 +1,21 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+---
+
+<ul class="flex flex-col gap-2 text-sm">
+  {
+    headings.map((heading) => (
+      <li class:list={[heading.depth === 3 && "pl-4"]}>
+        <a href={`#${heading.slug}`} class="text-muted hover:text-ink">
+          {heading.text}
+        </a>
+      </li>
+    ))
+  }
+</ul>

@@ -1,40 +1,140 @@
 ---
-import { getCollection, render, type CollectionEntry } from "astro:content";
+import { render } from "astro:content";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
-import { toPost } from "../../../lib/posts";
+import {
+  getPublishedEntries,
+  postHref,
+  readingTime,
+  toPost,
+} from "../../../lib/posts";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Tag from "../../../components/Tag.astro";
 import Byline from "../../../components/Byline.astro";
+import TableOfContents from "../../../components/TableOfContents.astro";
 
 export const getStaticPaths = (async () => {
-  const entries = await getCollection("blog", ({ data }) => !data.draft);
+  const entries = await getPublishedEntries();
 
-  return entries.map((entry) => {
+  return entries.map((entry, i) => {
     const [category, slug] = entry.id.split("/");
+    const newer = entries[i - 1];
+    const older = entries[i + 1];
     return {
       params: { category, slug },
-      props: { entry },
+      props: {
+        entry,
+        newer: newer && { title: newer.data.title, href: postHref(newer.id) },
+        older: older && { title: older.data.title, href: postHref(older.id) },
+      },
     };
   });
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-const { entry } = Astro.props;
+const { entry, newer, older } = Astro.props;
 const post = await toPost(entry);
 const { Content, headings } = await render(entry);
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const minutes = readingTime(entry.body);
 ---
 
 <BaseLayout title={post.title} description={post.excerpt}>
-  <article>
-    <header>
-      <Tag {...post.category} variant="category" />
-      {post.tags.map((tag) => <Tag {...tag} />)}
-      <h1>{post.title}</h1>
-      <Byline author={post.author} date={post.date} />
-    </header>
-    <div class="prose">
-      <Content />
+  <section slot="hero" class="bg-inverse px-4 text-on-inverse">
+    <div class="mx-auto max-w-5xl py-12 lg:py-16">
+      <a
+        href="/blog"
+        class="text-sm text-on-inverse-muted hover:text-on-inverse"
+      >
+        ← All posts
+      </a>
+      <div class="mt-6 flex flex-wrap gap-x-2 gap-y-3">
+        <Tag {...post.category} variant="category" inverse />
+        {post.tags.map((tag) => <Tag {...tag} inverse />)}
+      </div>
+      <h1 class="mt-4 max-w-3xl text-4xl font-bold text-balance lg:text-5xl">
+        {post.title}
+      </h1>
+      <p class="mt-4 max-w-2xl text-lg text-on-inverse-muted">
+        {post.excerpt}
+      </p>
+      <Byline
+        author={post.author}
+        date={post.date}
+        readingTime={minutes}
+        inverse
+        class="mt-8"
+      />
     </div>
-  </article>
+  </section>
+
+  <div
+    class:list={[
+      "mx-auto max-w-5xl lg:py-4",
+      tocHeadings.length > 0 &&
+        "lg:grid lg:grid-cols-[minmax(0,1fr)_14rem] lg:gap-16",
+    ]}
+  >
+    {
+      tocHeadings.length > 0 && (
+        <aside class="lg:order-last">
+          <details class="mb-8 rounded-lg border border-line bg-surface p-4 lg:hidden">
+            <summary class="cursor-pointer text-sm font-semibold text-ink">
+              On this page
+            </summary>
+            <div class="mt-4">
+              <TableOfContents headings={tocHeadings} />
+            </div>
+          </details>
+          <nav
+            aria-label="Table of contents"
+            class="sticky top-24 hidden lg:block"
+          >
+            <p class="mb-4 text-xs font-semibold tracking-wider text-ink uppercase">
+              On this page
+            </p>
+            <TableOfContents headings={tocHeadings} />
+          </nav>
+        </aside>
+      )
+    }
+
+    <article class="min-w-0">
+      <div class="prose prose-theme prose-headings:scroll-mt-24 lg:prose-lg">
+        <Content />
+      </div>
+
+      {
+        (newer || older) && (
+          <nav
+            aria-label="More posts"
+            class="mt-16 grid gap-4 border-t border-line pt-8 sm:grid-cols-2"
+          >
+            {older && (
+              <a
+                href={older.href}
+                class="rounded-lg border border-line bg-surface p-4 hover:border-muted"
+              >
+                <span class="text-xs text-muted">← Previous post</span>
+                <span class="mt-1 block font-semibold text-ink">
+                  {older.title}
+                </span>
+              </a>
+            )}
+            {newer && (
+              <a
+                href={newer.href}
+                class="rounded-lg border border-line bg-surface p-4 text-right hover:border-muted sm:col-start-2"
+              >
+                <span class="text-xs text-muted">Next post →</span>
+                <span class="mt-1 block font-semibold text-ink">
+                  {newer.title}
+                </span>
+              </a>
+            )}
+          </nav>
+        )
+      }
+    </article>
+  </div>
 </BaseLayout>

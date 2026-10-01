@@ -3,18 +3,26 @@ import type Tag from "../types/tag";
 
 interface Props extends Tag {
   variant?: "category" | "tag";
+  inverse?: boolean;
 }
 
-const { label, url, variant = "tag" } = Astro.props;
+const { label, url, variant = "tag", inverse = false } = Astro.props;
+
+const styles = {
+  category: inverse
+    ? "text-ink bg-on-inverse border border-on-inverse hover:bg-on-inverse-muted"
+    : "text-white bg-neutral-800 border border-neutral-800 hover:bg-neutral-700",
+  tag: inverse
+    ? "text-on-inverse-muted border border-on-inverse-muted/50 hover:border-on-inverse-muted"
+    : "text-neutral-700 border border-neutral-300 hover:border-neutral-400",
+};
 ---
 
 <a class="z-10" href={url}>
   <span
     class:list={[
       "font-semibold text-xs px-[1em] py-[0.25em] rounded transition-transform duration-300",
-      variant === "category"
-        ? "text-white bg-neutral-800 border border-neutral-800 hover:bg-neutral-700"
-        : "text-neutral-700 border border-neutral-300 hover:border-neutral-400",
+      styles[variant],
     ]}
   >
     {label}

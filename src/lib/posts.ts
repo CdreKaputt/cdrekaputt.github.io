@@ -1,6 +1,22 @@
 import { getCollection, getEntry, getEntries, type CollectionEntry } from "astro:content";
 import type Post from "../types/post";
 
+const WORDS_PER_MINUTE = 200;
+
+export function postHref(id: string): string {
+  return `/blog/${id}`;
+}
+
+export function readingTime(body: string = ""): number {
+  const words = body.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+}
+
+export async function getPublishedEntries(): Promise<CollectionEntry<"blog">[]> {
+  const entries = await getCollection("blog", ({ data }) => !data.draft);
+  return entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+}
+
 export async function toPost(entry: CollectionEntry<"blog">): Promise<Post> {
   const categoryId = entry.id.split("/")[0];
 
@@ -17,7 +33,7 @@ export async function toPost(entry: CollectionEntry<"blog">): Promise<Post> {
     title: entry.data.title,
     excerpt: entry.data.excerpt,
     date: entry.data.date,
-    href: `/blog/${entry.id}`,
+    href: postHref(entry.id),
     author: author.data,
     category: { label: category.data.label, url: `/blog/${category.id}` },
     tags: tags.map((tag) => ({ label: tag.data.label, url: `/tags/${tag.id}` })),
@@ -25,7 +41,6 @@ export async function toPost(entry: CollectionEntry<"blog">): Promise<Post> {
 }
 
 export async function getRecentPosts(limit: number): Promise<Post[]> {
-  const entries = await getCollection("blog", ({ data }) => !data.draft);
-  entries.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  const entries = await getPublishedEntries();
   return Promise.all(entries.slice(0, limit).map(toPost));
 }
