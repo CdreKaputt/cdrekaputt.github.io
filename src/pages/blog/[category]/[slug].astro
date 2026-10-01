@@ -100,7 +100,9 @@ const minutes = readingTime(entry.body);
     }
 
     <article class="min-w-0">
-      <div class="prose prose-theme font-body prose-headings:font-sans prose-headings:scroll-mt-24 lg:prose-lg">
+      <div
+        class="prose prose-theme font-body prose-headings:font-sans prose-headings:scroll-mt-24 lg:prose-lg"
+      >
         <Content />
       </div>
 
@@ -108,15 +110,15 @@ const minutes = readingTime(entry.body);
         (newer || older) && (
           <nav
             aria-label="More posts"
-            class="mt-16 grid gap-4 border-t border-line pt-8 sm:grid-cols-2"
+            class="mt-16 grid gap-4 grid-cols-2 border-t border-line pt-8"
           >
             {older && (
               <a
                 href={older.href}
-                class="rounded-lg border border-line bg-surface p-4 hover:border-muted"
+                class="rounded-lg border border-line bg-surface p-4 text-xs md:text-sm hover:border-muted"
               >
-                <span class="text-xs text-muted">← Previous post</span>
-                <span class="mt-1 block font-semibold text-ink">
+                <span class="text-muted">← Previous post</span>
+                <span class="mt-1 font-semibold text-ink block">
                   {older.title}
                 </span>
               </a>
@@ -124,10 +126,10 @@ const minutes = readingTime(entry.body);
             {newer && (
               <a
                 href={newer.href}
-                class="rounded-lg border border-line bg-surface p-4 text-right hover:border-muted sm:col-start-2"
+                class="rounded-lg border border-line bg-surface p-4 text-right text-xs md:text-sm hover:border-muted col-start-2"
               >
-                <span class="text-xs text-muted">Next post →</span>
-                <span class="mt-1 block font-semibold text-ink">
+                <span class="text-muted">Next post →</span>
+                <span class="mt-1 font-semibold text-ink block">
                   {newer.title}
                 </span>
               </a>
