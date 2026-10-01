@@ -1,0 +1,40 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { toPost } from "../../../lib/posts";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Tag from "../../../components/Tag.astro";
+import Byline from "../../../components/Byline.astro";
+
+export const getStaticPaths = (async () => {
+  const entries = await getCollection("blog", ({ data }) => !data.draft);
+
+  return entries.map((entry) => {
+    const [category, slug] = entry.id.split("/");
+    return {
+      params: { category, slug },
+      props: { entry },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { entry } = Astro.props;
+const post = await toPost(entry);
+const { Content, headings } = await render(entry);
+---
+
+<BaseLayout title={post.title} description={post.excerpt}>
+  <article>
+    <header>
+      <Tag {...post.category} variant="category" />
+      {post.tags.map((tag) => <Tag {...tag} />)}
+      <h1>{post.title}</h1>
+      <Byline author={post.author} date={post.date} />
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

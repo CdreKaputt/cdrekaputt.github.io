@@ -19,7 +19,7 @@ export async function toPost(entry: CollectionEntry<"blog">): Promise<Post> {
     date: entry.data.date,
     href: `/blog/${entry.id}`,
     author: author.data,
-    category: { label: category.data.label, url: `blog/${category.id}` },
+    category: { label: category.data.label, url: `/blog/${category.id}` },
     tags: tags.map((tag) => ({ label: tag.data.label, url: `/tags/${tag.id}` })),
   };
 }
