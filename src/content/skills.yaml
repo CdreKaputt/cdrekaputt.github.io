@@ -1,0 +1,12 @@
+languages:
+  label: Languages
+  order: 1
+  items: [JavaScript, TypeScript, Go, Python, C/C++, HTML, CSS, SQL]
+frameworks:
+  label: Frameworks & Libraries
+  order: 2
+  items: [React, Node.js, Express, Astro, Tailwind CSS, Flask, jQuery]
+platforms:
+  label: Platforms & Tools
+  order: 3
+  items: [Cloudflare Workers, Git, WordPress, REST APIs, Photoshop, Illustrator]

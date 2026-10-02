@@ -11,8 +11,30 @@ const posts: Post[] = await getRecentPosts(6);
 ---
 
 <BaseLayout title="Home">
-  <Hero slot="hero" title="Hello">
-    <p>A short intro line under the heading.</p>
+  <Hero
+    slot="hero"
+    title="Aaron Brunswig"
+    subtitle="Web developer · CS student at CU Boulder"
+  >
+    <p>
+      I build websites and web apps, and I'm studying computer science to go
+      deeper into backend systems. This site documents my course project.
+    </p>
+
+    <Fragment slot="actions">
+      <a
+        href="/about"
+        class="rounded-md bg-on-inverse px-5 py-2 5 text-sm font-semibold text-ink hover:bg-on-inverse-muted"
+      >
+        About me
+      </a>
+      <a
+        href="#contact"
+        class="rounded-md border border-on-inverse-muted/50 px-5 py-2 5 text-sm font-semibold text-on-inverse hover:border-on-inverse-muted"
+      >
+        Contact
+      </a>
+    </Fragment>
   </Hero>
   <section class="flex flex-col gap-12">
     <div class="max-w-[60ch]">

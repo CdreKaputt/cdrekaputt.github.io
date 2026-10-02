@@ -1,0 +1,11 @@
+cu-boulder:
+  degree: B.S. Computer Science (Post-Baccalaureate)
+  school: University of Colorado Boulder
+  period: Expected May 2027
+  order: 1
+  coursework: [Data Structures, Algorithms, Software Development]
+csu:
+  degree: B.A. History, Anthropology minor
+  school: Colorado State University
+  period: "2017"
+  order: 2

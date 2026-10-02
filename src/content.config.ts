@@ -38,4 +38,24 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog, authors, categories, tags }
+const skills = defineCollection({
+  loader: file("./src/content/skills.yaml"),
+  schema: z.object({
+    label: z.string(),
+    order: z.number(),
+    items: z.array(z.string()),
+  }),
+});
+
+const education = defineCollection({
+  loader: file("./src/content/education.yaml"),
+  schema: z.object({
+    degree: z.string(),
+    school: z.string(),
+    period: z.string(),
+    order: z.number(),
+    coursework: z.array(z.string()).default([]),
+  }),
+});
+
+export const collections = { blog, authors, categories, tags, skills }

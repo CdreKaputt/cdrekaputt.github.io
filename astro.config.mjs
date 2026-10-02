@@ -13,7 +13,7 @@ export default defineConfig({
       name: 'Montserrat',
       cssVariable: '--font-montserrat',
       weights: ['100 900'],
-      styles: ['normal', 'italic'],
+      styles: ['normal'],
       fallbacks: ['sans-serif'],
     },
     {
@@ -21,7 +21,7 @@ export default defineConfig({
       name: 'Inter',
       cssVariable: '--font-inter',
       weights: ['100 900'],
-      styles: ['normal', 'italic'],
+      styles: ['normal'],
       fallbacks: ['sans-serif'],
     },
   ],
