@@ -1,0 +1,26 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Tag from "./Tag.astro";
+
+interface Props {
+  groups: CollectionEntry<"skills">[];
+  limit?: number;
+}
+
+const { groups, limit } = Astro.props;
+---
+
+<dl class="flex flex-col gap-6">
+  {
+    groups.map(({ data }) => (
+      <div>
+        <dt class="mb-3 text-sm font-semibold text-muted">{data.label}</dt>
+        <dd class="flex flex-wrap gap-2">
+          {data.items.slice(0, limit).map((item) => (
+            <Tag label={item} />
+          ))}
+        </dd>
+      </div>
+    ))
+  }
+</dl>

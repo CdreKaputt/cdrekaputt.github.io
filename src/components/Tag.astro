@@ -1,30 +1,39 @@
 ---
 import type Tag from "../types/tag";
 
-interface Props extends Tag {
+interface Props extends Omit<Tag, "url"> {
+  url?: Tag["url"];
   variant?: "category" | "tag";
   inverse?: boolean;
 }
 
 const { label, url, variant = "tag", inverse = false } = Astro.props;
 
+const Element = url ? "a" : "span";
+
 const styles = {
   category: inverse
-    ? "text-ink bg-on-inverse border border-on-inverse hover:bg-on-inverse-muted"
-    : "text-white bg-neutral-800 border border-neutral-800 hover:bg-neutral-700",
+    ? "text-ink bg-on-inverse border-on-inverse"
+    : "text-white bg-neutral-800 border-neutral-800",
   tag: inverse
-    ? "text-on-inverse-muted border border-on-inverse-muted/50 hover:border-on-inverse-muted"
-    : "text-neutral-700 border border-neutral-300 hover:border-neutral-400",
+    ? "text-on-inverse-muted border-on-inverse-muted/50"
+    : "text-neutral-700 border-neutral-300",
+};
+
+const hoverStyles = {
+  category: inverse ? "hover:bg-on-inverse-muted" : "hover:bg-neutral-700",
+  tag: inverse ? "hover:border-on-inverse-muted" : "hover:border-neutral-400",
 };
 ---
 
-<a class="z-10" href={url}>
+<Element href={url} class:list={[url && "z-10"]}>
   <span
     class:list={[
-      "font-semibold text-xs px-[1em] py-[0.25em] rounded transition-transform duration-300",
+      "rounded border px-[1em] py-[0.25em] text-xs font-semibold transition-colors duration-300",
       styles[variant],
+      url && hoverStyles[variant],
     ]}
   >
     {label}
   </span>
-</a>
+</Element>

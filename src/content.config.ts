@@ -58,4 +58,4 @@ const education = defineCollection({
   }),
 });
 
-export const collections = { blog, authors, categories, tags, skills }
+export const collections = { blog, authors, categories, tags, skills, education }
