@@ -1,0 +1,24 @@
+---
+import type Fact from "../types/fact";
+
+interface Props {
+  facts: Fact[];
+  class?: string;
+}
+
+const { facts, class: className } = Astro.props;
+---
+
+<dl class:list={["divide-y divide-line", className]}>
+  {
+    facts.map(({ label, value, detail }) => (
+      <div class="grid grid-cols-[7rem_1fr] gap-4 py-4">
+        <dt class="text-sm font-semibold text-muted">{label}</dt>
+        <dd class="text-sm">
+          {value}
+          {detail && <span class="mt-0.5 block text-muted">{detail}</span>}
+        </dd>
+      </div>
+    ))
+  }
+</dl>

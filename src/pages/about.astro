@@ -1,0 +1,167 @@
+---
+import { Image } from "astro:assets";
+import ContactLinks from "../components/ContactLinks.astro";
+import EducationCard from "../components/EducationCard.astro";
+import Hero from "../components/Hero.astro";
+import QuickFacts from "../components/QuickFacts.astro";
+import SkillGroups from "../components/SkillGroups.astro";
+import { GITHUB_URL } from "../consts";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getEducation, getFacts, getSkills } from "../lib/profile";
+import headshot from "../assets/aaron-headshot-v-2.jpg";
+
+const [facts, skills, education] = await Promise.all([
+  getFacts(),
+  getSkills(),
+  getEducation(),
+]);
+---
+
+<BaseLayout
+  title="About"
+  description="Background, skills, and education, plus a way to get in touch."
+>
+  <Hero
+    slot="hero"
+    title="About me"
+    subtitle="Aaron Brunswig · Fort Collins, CO"
+  >
+    <p>
+      I'm a web developer studying computer science at CU Boulder. This page
+      covers my background, what I'm working on, and how to reach me.
+    </p>
+
+    <Fragment slot="actions">
+      <a
+        href="#contact"
+        class="rounded-md bg-on-inverse px-5 py-2.5 text-sm font-semibold text-ink hover:bg-on-inverse-muted"
+      >
+        Send a message
+      </a>
+      <a
+        href={GITHUB_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-md border border-on-inverse-muted/50 px-5 py-2.5 text-sm font-semibold text-on-inverse hover:border-on-inverse-muted"
+      >
+        GitHub
+      </a>
+    </Fragment>
+  </Hero>
+
+  <div class="flex flex-col gap-24 py-8 lg:gap-32 lg:py-12">
+    <!-- Bio + sidebar -->
+    <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+      <aside class="lg:order-last">
+        <div class="flex flex-col gap-6 lg:top-24">
+          <div class="rounded-lg bg-white p-6 shadow-lg">
+            <div class="flex items-center gap-4">
+              <Image
+                src={headshot}
+                alt="Aaron Brunswig"
+                width={80}
+                height={80}
+                densities={[1, 2]}
+                class="size-20 rounded-full object-cover"
+              />
+              <div>
+                <p class="font-semibold">Aaron Brunswig</p>
+                <p class="text-sm text-muted">Web developer</p>
+              </div>
+            </div>
+            <QuickFacts facts={facts} class="mt-4 border-t border-line" />
+          </div>
+
+          <div class="rounded-lg bg-white p-6 shadow-lg">
+            <h2 class="mb-4 text-xs font-semibold tracking-wider uppercase">
+              Get in touch
+            </h2>
+            <ContactLinks />
+            <a
+              href="#contact"
+              class="mt-5 inline-block text-sm font-semibold hover:underline"
+            >
+              Send a message &darr;
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <section
+        aria-label="Biography"
+        class="prose prose-theme font-body prose-headings:font-sans lg:prose-lg"
+      >
+        <h2>Background</h2>
+        <p>
+          I've spent the last five years building and maintaining websites for
+          clients. Before that, I studied history at Colorado State University,
+          with a minor in anthropology, and graduated in 2017.
+        </p>
+
+        <!-- <h2>Why computer science</h2>
+        <p>
+          I'm in the post-baccalaureate computer science program at CU Boulder
+          and expect to finish in May 2027. Web work taught me a lot about the
+          front end, but I want to understand more of what happens behind it, so
+          I'm focusing on backend and systems work.
+        </p> -->
+
+        <h2>What I'm working on</h2>
+        <p>
+          This site is the client side of my course project for CSPB 3112. I'm
+          building a form submission and notification service on Cloudflare
+          Workers. Forms submitted here are validated with Astro server actions
+          and then passed to a central service that saves them to a database and
+          emails anyone subscribed to that site's notifications. The contact
+          form at the bottom of this page will be the first form connected to
+          it.
+        </p>
+
+        <h2>Outside of work</h2>
+        <p>
+          When I'm not at a computer, I'm usually taking photos, cooking, or
+          hanging out with my dog Louie.
+        </p>
+      </section>
+    </div>
+
+    <!-- Skills + education -->
+    <div class="grid gap-16 lg:grid-cols-2">
+      <section
+        aria-labelledby="skills-heading"
+        class="flex flex-col gap-8 rounded-lg bg-white p-6 shadow-lg lg:p-10"
+      >
+        <div>
+          <h2 id="skills-heading" class="text-3xl font-semibold">Skills</h2>
+          <p class="mt-2 text-muted">
+            Languages and tools I use for client work and coursework.
+          </p>
+        </div>
+        <div class="">
+          <SkillGroups groups={skills} />
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="education-heading"
+        class="flex flex-col gap-8 rounded-lg bg-white p-6 shadow-lg lg:p-10"
+      >
+        <div>
+          <h2 id="education-heading" class="text-3xl font-semibold">
+            Education
+          </h2>
+          <p class="mt-2 text-muted">Degrees, current and completed.</p>
+        </div>
+        <ul class="flex flex-col gap-6">
+          {
+            education.map(({ data }) => (
+              <li>
+                <EducationCard education={data} />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

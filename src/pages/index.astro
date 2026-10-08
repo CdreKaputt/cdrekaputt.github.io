@@ -1,29 +1,12 @@
 ---
 import Hero from "../components/Hero.astro";
 import PostCard from "../components/PostCard.astro";
+import QuickFacts from "../components/QuickFacts.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getRecentPosts } from "../lib/posts";
-import { getSkills, getEducation } from "../lib/profile";
+import { getFacts } from "../lib/profile";
 
-const [posts, skills, education] = await Promise.all([
-  getRecentPosts(6),
-  getSkills(),
-  getEducation(),
-]);
-
-const [current] = education;
-const topSkills = skills.flatMap(({ data }) => data.items.slice(0, 2));
-
-const facts = [
-  { label: "Based in", value: "Fort Collins, CO" },
-  current && {
-    label: "Studying",
-    value: current.data.degree,
-    detail: `${current.data.school} · ${current.data.period}`,
-  },
-  { label: "Experience", value: "5+ years in web development" },
-  { label: "Works with", value: topSkills.join(", ") },
-].filter((fact) => !!fact);
+const [posts, facts] = await Promise.all([getRecentPosts(6), getFacts()]);
 ---
 
 <BaseLayout title="Home">
@@ -103,23 +86,10 @@ const facts = [
         </a>
       </div>
 
-      <dl
-        class="divide-y divide-line border-y border-line bg-white py-6 px-10 rounded-lg shadow-lg"
-      >
-        {
-          facts.map(({ label, value, detail }) => (
-            <div class="grid grid-cols-[7rem_1fr] gap-4 py-4">
-              <dt class="text-sm font-semibold text-muted">{label}</dt>
-              <dd class="text-sm">
-                {value}
-                {detail && (
-                  <span class="mt-0.5 block text-muted">{detail}</span>
-                )}
-              </dd>
-            </div>
-          ))
-        }
-      </dl>
+      <QuickFacts
+        facts={facts}
+        class="border-y border-line bg-white py-6 px-10 rounded-lg shadow-lg"
+      />
     </section>
   </div>
 </BaseLayout>

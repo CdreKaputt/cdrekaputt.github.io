@@ -1,0 +1,33 @@
+---
+import ContactLinks from "./ContactLinks.astro";
+import ContactForm from "./ContactForm.astro";
+
+const year = new Date().getFullYear();
+---
+
+<footer
+  id="contact"
+  aria-labelledby="contact-heading"
+  class="scroll-mt-16 bg-inverse text-on-inverse antialiased"
+>
+  <div class="mx-auto max-w-7xl px-4 py-16 lg:py-24">
+    <div class="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
+      <div>
+        <h2 id="contact-heading" class="text-3xl font-semibold">Contact</h2>
+        <p class="mt-4 max-w-prose text-lg text-on-inverse-muted">
+          Have a question about my work or this project? Send me a message and
+          I'll get back to you by email.
+        </p>
+        <ContactLinks class="mt-8" inverse />
+      </div>
+
+      <ContactForm />
+    </div>
+
+    <p
+      class="mt-16 border-t border-on-inverse-muted/20 pt-8 text-sm text-on-inverse-muted"
+    >
+      &copy; {year} Aaron Brunswig
+    </p>
+  </div>
+</footer>

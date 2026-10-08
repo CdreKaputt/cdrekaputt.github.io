@@ -1,0 +1,43 @@
+---
+import { EMAIL, GITHUB_URL, LINKEDIN_URL } from "../consts";
+
+interface Props {
+  inverse?: boolean;
+  class?: string;
+}
+
+const { inverse = false, class: className } = Astro.props;
+
+const links = [
+  { label: "Email", value: EMAIL, href: `mailto:${EMAIL}` },
+  { label: "LinkedIn", value: "aaron-brunswig", href: LINKEDIN_URL },
+  { label: "GitHub", value: "CdreKaputt", href: GITHUB_URL },
+];
+---
+
+<ul class:list={["flex flex-col gap-3 text-sm", className]}>
+  {
+    links.map(({ label, value, href }) => (
+      <li class="grid grid-cols-[5rem_1fr] gap-4">
+        <span
+          class:list={[
+            "font-semibold",
+            inverse ? "text-on-inverse-muted" : "text-muted",
+          ]}
+        >
+          {label}
+        </span>
+        <a
+          href={href}
+          class="truncate hover:underline"
+          {...(!href.startsWith("mailto:") && {
+            target: "_blank",
+            rel: "noopener noreferrer",
+          })}
+        >
+          {value}
+        </a>
+      </li>
+    ))
+  }
+</ul>
