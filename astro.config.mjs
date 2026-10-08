@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig, fontProviders } from 'astro/config';
+import { defineConfig, envField, fontProviders } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -25,6 +25,15 @@ export default defineConfig({
       fallbacks: ['sans-serif'],
     },
   ],
+
+  env: {
+    schema: {
+      PUBLIC_TURNSTILE_SITE_KEY: envField.string({
+        context: 'client',
+        access: 'public',
+      }),
+    },
+  },
 
   vite: {
     plugins: [tailwindcss()]

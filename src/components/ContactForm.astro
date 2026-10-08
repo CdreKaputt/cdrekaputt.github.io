@@ -1,4 +1,6 @@
 ---
+import { TURNSTILE_SITE_KEY } from "../consts";
+
 const inputClass =
   "mt-2 block w-full rounded-md border border-line bg-page px-3 py-2 text-sm text-ink focus:border-ink focus:outline-none aria-invalid:border-red-600";
 const errorClass = "mt-1.5 text-sm text-red-700 empty:hidden";
@@ -44,7 +46,6 @@ const errorClass = "mt-1.5 text-sm text-red-700 empty:hidden";
       id="contact-message"
       name="message"
       rows="6"
-      required
       minlength="10"
       maxlength="5000"
       class={inputClass}></textarea>
@@ -62,6 +63,16 @@ const errorClass = "mt-1.5 text-sm text-red-700 empty:hidden";
     />
   </div>
 
+  <div>
+    <div
+      class="cf-turnstile"
+      data-sitekey={TURNSTILE_SITE_KEY}
+      data-appearance="interaction-only"
+    >
+    </div>
+    <p data-error-for="cf-turnstile-response" class={errorClass}></p>
+  </div>
+
   <div class="flex flex-wrap items-center gap-4">
     <button
       type="submit"
@@ -73,8 +84,20 @@ const errorClass = "mt-1.5 text-sm text-red-700 empty:hidden";
   </div>
 </form>
 
+<script
+  is:inline
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+  async
+  defer></script>
+
 <script>
   import { actions, isInputError } from "astro:actions";
+
+  declare global {
+    interface Window {
+      turnstile?: { reset: () => void };
+    }
+  }
 
   const form = document.querySelector<HTMLFormElement>("#contact-form");
 
@@ -102,6 +125,7 @@ const errorClass = "mt-1.5 text-sm text-red-700 empty:hidden";
       status.textContent = "Sending…";
 
       const { error } = await actions.contact(new FormData(form));
+      window.turnstile?.reset();
       button.disabled = false;
 
       if (!error) {
@@ -112,6 +136,8 @@ const errorClass = "mt-1.5 text-sm text-red-700 empty:hidden";
           setFieldError(name, messages?.[0]);
         }
         status.textContent = "Please fix the highlighted fields.";
+      } else if (error.code === "FORBIDDEN") {
+        status.textContent = error.message;
       } else {
         status.textContent =
           "Something went wrong. Please try again or email me directly.";
