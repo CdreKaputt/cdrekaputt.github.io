@@ -1,0 +1,15 @@
+---
+title: Form and Server Actions
+excerpt: Last week, I implemented a very simple about page on my site and, more importantly, added a very simple contact form to the footer which will...
+date: 2026-10-08
+author: aaron
+tags: [overview]
+---
+## What did I do last week?
+Last week, I implemented a very simple about page on my site and, more importantly, added a very simple contact form to the footer which will be used for testing my form submission and handling service. The form itself has very little JS on the frontend for now, using only native HTML form validation for required fields and a simple script to submit the form to the backend. It does, however, have a hidden Cloudflare Turnstyle element that evaluates the client's browser environment and passes a score along with any form submissions. This is then used to evaluate the likelihood that any given form submission was sent by a human, or if it was sent by a likely bot. Bot submissions are rejected and return an error to the client side. In a production site, I would implement some additional error handling on the client side of a form like this, but it will do for testing. I also implemented a basic backend server action that receives the forms submission from the client side, checks the inputs using Zod, a very popular JS library for runtime validation, and then evaluates the Cloudways Turnstyle data. If a field does not match the schema established by Zod, or if the Turnstyle fails, a 400 status code is returned (403 in the case of a failed Turnstyle test) and the frontend displays a validation message to the user. 
+
+## My plan for this week
+This week, I will add some logic to send successful form submission from the sites server to a seperate, centralized, form submission handler. This service will log the forms, and send email verification messages to any addresses that are subscribed to that particular site. This will be where the bulk of the work for this project will take place. This system will have it's own validation step, error logging, database interactions, and send emails using SMTP protocols. I expect work on this part of the project to go on for a few weeks, but I will start with a simple API to receive form submissions and make sure I can save them to the DB. I believe I should be able to have that working by this time next week. 
+
+## Impediments and blockers
+I don't have any major blockers at the moment, but I do have a big decision to make. I was originally going to build this central form service using Go and stick to it's standard library, but I've since learned that I can do all of this using a stand alone Cloudflare worker that integrates with Cloudflare's own D1 database for saving entries and logging. This would be the cleaner approach, and is likely what I will go with for the production sites I'm building as part of the freelance work I'm doing, but I think I will attempt to get this working using a standalone Go service first. That would be more out of my comfort zone and would help build some new skills that the Cloudflare worker approach likely would not.

@@ -10,3 +10,6 @@ week-4:
 week-5:
   label: Week 5
   description: Website deployment and worker testing.
+week-6:
+  label: Week 6
+  description: Building a new form and server actions.
