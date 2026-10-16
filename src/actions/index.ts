@@ -18,7 +18,6 @@ export const server = {
       message: z
         .string()
         .trim()
-        .min(10, "Please write at least 10 characters.")
         .max(5000, "Please keep your message under 5,000 characters.")
         .optional(),
       website: z.string().optional(),
