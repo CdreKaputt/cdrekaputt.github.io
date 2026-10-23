@@ -6,7 +6,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getRecentPosts } from "../lib/posts";
 import { getFacts } from "../lib/profile";
 
-const [posts, facts] = await Promise.all([getRecentPosts(6), getFacts()]);
+const [posts, facts] = await Promise.all([getRecentPosts(9), getFacts()]);
 ---
 
 <BaseLayout title="Home">

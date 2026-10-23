@@ -16,3 +16,6 @@ week-6:
 week-7:
   label: Week 7
   description: Go Service and Mid-semester Project Update.
+week-8:
+  label: Week 8
+  description: Go Service consumer and mock queue.
