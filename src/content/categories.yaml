@@ -19,3 +19,6 @@ week-7:
 week-8:
   label: Week 8
   description: Go Service consumer and mock queue.
+week-9:
+  label: Week 9
+  description: Building an email notifier.
