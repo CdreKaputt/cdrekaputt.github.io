@@ -22,3 +22,6 @@ week-8:
 week-9:
   label: Week 9
   description: Building an email notifier.
+week-10:
+  label: Week 10
+  description: Implementing SMTP.
