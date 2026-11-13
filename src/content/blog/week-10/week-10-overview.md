@@ -1,6 +1,6 @@
 ---
 title: Implementing SMTP
-excerpt: I didn’t make as much progress last week as I did the week before, but I was able to get the basic notifications package implemented. For now...
+excerpt: Last week I continued work on the notifier package of my Go service, specifically the SMTP protocol layer, but I ran into some significant issues with the implementation side...
 date: 2026-11-05
 author: aaron
 tags: [overview]

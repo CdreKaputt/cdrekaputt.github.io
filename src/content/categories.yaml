@@ -25,3 +25,6 @@ week-9:
 week-10:
   label: Week 10
   description: Implementing SMTP.
+week-11:
+  label: Week 11
+  description: Troubleshooting Mailpit and email template.
